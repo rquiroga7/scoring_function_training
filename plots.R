@@ -81,12 +81,12 @@ ggsave("pes_plot_2.png", plot = pes_plot2, width = 6, height = 4, units = "in", 
 
 
 #Create a dataframe where y=ax+b, where a=0.6 and b=-8, and add some noise
-data <- data.frame(x = seq(-12, -2, length.out = 301))
-data$y <- 0.35 * data$x - 4.75 + rnorm(301, sd = 1.75)
+data <- data.frame(x = seq(-12, -2, length.out = 201))
+data$y <- 0.35 * data$x - 4.75 + rnorm(201, sd = 1.75)
 #add an rnorm error term wich depends on x
-data$y <- data$y + rnorm(301, sd = abs(0.25 / data$x))
-data$y2 <- 0.7 * data$x - 2.25 + rnorm(301, sd = 1.2)
-data$y2 <- data$y2 + rnorm(301, sd = abs(0.1 / data$x))
+data$y <- data$y + rnorm(201, sd = abs(0.25 / data$x))
+data$y2 <- 0.7 * data$x - 2.25 + rnorm(201, sd = 1.2)
+data$y2 <- data$y2 + rnorm(201, sd = abs(0.1 / data$x))
 
 mean(data$x)
 mean(data$y)
@@ -102,16 +102,22 @@ correlations <- data %>%
   summarise(correlation = cor(x, y, method = "pearson"))
 
 # Create a plot of the data
-data_plot <- ggplot(data, aes(x = x, y = y, color = surface)) +
-  geom_point() +
+
+# Define the labels for each level of the surface variable
+labels = paste(correlations$surface, " (Correlation: ", round(correlations$correlation, 2), ")")
+
+
+# Create a plot of the data
+data_plot <- ggplot(data, aes(x = x, y = y, shape = surface)) +
+  geom_point(size = 2, stroke = 2) +
+  scale_shape_manual(values = c(21, 19), labels = labels) +  # 21 is filled circle, 19 is open circle
   labs(x = "Experimental Binding Energy",
        y = "Predicted Binding Energy (Score)",
-       color = "Scoring Function") +  # Change the color legend title
+       shape = "Scoring Function") +  # Change the shape legend title
   #add a line for y=x
   geom_abline(intercept = 0, slope = 1, color = "red") +
   scale_x_continuous(limits=c(-12,-2))+
   scale_y_continuous(limits=c(-12,-2))+
-  scale_color_discrete(labels = paste(correlations$surface, " (Correlation: ", round(correlations$correlation, 2), ")")) +
   #legend below
   theme_light()+
   theme(legend.position = "bottom")
