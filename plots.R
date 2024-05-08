@@ -7,9 +7,10 @@ library(ggrepel)
 pes <- data.frame(x = seq(-5, 5, length.out = 1001))
 pes$y <- with(pes, 1.0 * exp(-(x-0)^2) + 0.5 * exp(-(x - 2)^2) + 0.4 * exp(-(x + 2)^2))
 pes$y2 <- with(pes, 0.8 * exp(-(x-0)^2) + 1.0 * exp(-(x - 2)^2) + 1.6 * exp(-(x + 2)^2))
+pes$y3 <- with(pes, 0.6 * exp(-(x-0)^2) + 0.2 * exp(-(x - 2)^2) + 0.2 * exp(-(x + 2)^2) + 0.7 * exp(-(x - 3)^2) + 0.65 * exp(-(x + 3)^2))
 
 #Create a data frame with the binding energy, which is the negative of the potential energy surface
-binding_energy <- data.frame(x = pes$x, y = -pes$y, y2=-pes$y2)
+binding_energy <- data.frame(x = pes$x, y = -pes$y, y2=-pes$y2, y3=-pes$y3)
 
 #Create a plot of the potential energy surface
 pes_plot <- ggplot(binding_energy, aes(x = x, y = y)) +
@@ -42,6 +43,21 @@ pes_plot2 <- ggplot(binding_energy, aes(x = x, y = y2)) +
 pes_plot2
 ggsave("pes_plot_2.png", plot = pes_plot2, width = 6, height = 4, units = "in", dpi = 300)
 
+pes_plot3 <- ggplot(binding_energy, aes(x = x, y = y3)) +
+  geom_line() +
+  labs(x = "Generalized Coordinates of the System",
+       y = "Binding Energy Estimate (Score)") +
+  #remove x axis and y axis labels
+  scale_x_continuous(labels = NULL, breaks = NULL)+
+  scale_y_continuous(labels = NULL, breaks = NULL)+
+  #Add different colored dots to minimum points
+  geom_point(data = binding_energy %>% filter(y == min(y)), color = "green") +
+  geom_point(data = binding_energy %>% filter(x < 0) %>% filter(y2 == min(y2)), color = "red") +
+  geom_point(data = binding_energy %>% filter(x > 0) %>% filter(y2 == min(y2)), color = "orange") +
+  theme_light()
+pes_plot3
+ggsave("pes_plot_3.png", plot = pes_plot2, width = 6, height = 4, units = "in", dpi = 300)
+
 
 #Now generate plot 1 but adding a legend where green dot = "Experimental structure and binding energy", red dot = "Local minimum 1", orange dot = "Local minimum 2"
 pes_plotB <- pes_plot +
@@ -55,6 +71,21 @@ pes_plotB <- pes_plot +
   theme_light()
 pes_plotB
 ggsave("pes_plot_1B.png", plot = pes_plotB, width = 6, height = 4, units = "in", dpi = 300)
+
+
+#Now generate plot 1 but adding a legend where green dot = "Experimental structure and binding energy", red dot = "Local minimum 1", orange dot = "Local minimum 2"
+pes_plotC <- pes_plot3 +
+  #Label the different colored dots with arrows using geom_repel
+    geom_label_repel(data = binding_energy %>% filter(x==0), aes(label = "Experimental structure and binding energy"), label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "green", segment.size = 0.5,nudge_x = 0.05, nudge_y = 0.1) +
+    geom_label_repel(data = binding_energy %>% filter(x==0), aes(label = "Experimental structure and binding energy"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.05, nudge_y = 0.1) +
+    geom_label_repel(data = binding_energy %>% filter(x == -2) %>% filter(y3 == min(y3)), aes(label = "Local minimum 1"), label.size=1.1, box.padding = 0.5, point.padding = 0.5, color = "red", segment.size = 0.5, nudge_x = 0.05, nudge_y = 0.1) +
+    geom_label_repel(data = binding_energy %>% filter(x == -2) %>% filter(y3 == min(y3)), aes(label = "Local minimum 1"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black", segment.color = NA , nudge_x = 0.05, nudge_y = 0.1) +
+    geom_label_repel(data = binding_energy %>% filter(x == 2) %>% filter(y3 == min(y3)), aes(label = "Local minimum 2"), label.size=1.1, box.padding = 0.5, point.padding = 0.5, color = "orange", segment.size = 0.5, nudge_x = 0.05, nudge_y = 0.1) +
+    geom_label_repel(data = binding_energy %>% filter(x == 2) %>% filter(y3 == min(y3)), aes(label = "Local minimum 2"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black", segment.color = NA , nudge_x = 0.05, nudge_y = 0.1) +
+  theme_light()
+pes_plotC
+ggsave("pes_plot_1C.png", plot = pes_plotC, width = 6, height = 4, units = "in", dpi = 300)
+
 
 pes_plotC <- pes_plot2 +
   #Label the different colored dots with arrows using geom_repel
@@ -152,3 +183,4 @@ data_plot <- ggplot(data, aes(x = x, y = y, shape = surface)) +
 data_plot
 
 ggsave("scatter_plot.png", plot = data_plot, width = 6, height = 6, units = "in", dpi = 300)
+
