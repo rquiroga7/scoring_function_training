@@ -10,7 +10,7 @@ pes$y2 <- with(pes, 0.8 * exp(-(x-0)^2) + 1.0 * exp(-(x - 2)^2) + 1.6 * exp(-(x 
 pes$y3 <- with(pes, 0.6 * exp(-(x-0)^2) + 0.2 * exp(-(x - 2)^2) + 0.2 * exp(-(x + 2)^2) + 0.7 * exp(-(x - 3)^2) + 0.65 * exp(-(x + 3)^2))
 
 #Create a data frame with the binding energy, which is the negative of the potential energy surface
-binding_energy <- data.frame(x = pes$x, y = -pes$y, y2=-pes$y2, y3=-pes$y3)
+binding_energy_ <- data.frame(x = pes$x, y = -pes$y, y2=-pes$y2, y3=-pes$y3)
 
 #Create a plot of the potential energy surface
 pes_plot <- ggplot(binding_energy, aes(x = x, y = y)) +
@@ -101,9 +101,10 @@ ggsave("pes_plot_2B.png", plot = pes_plotC, width = 6, height = 4, units = "in",
 
 
 #Now take binding energy, create a new column named surface with value 1, duplicate all rows with surface value 2 and 3
-binding_energy <- binding_energy %>% mutate(surface = 1)
-binding_energy <- binding_energy %>% bind_rows(mutate(binding_energy, surface = 2))
-binding_energy <- binding_energy %>% bind_rows(mutate(binding_energy, surface = 3))
+binding_energy <- binding_energy_ %>% mutate(surface = 1)
+binding_energy2 <- binding_energy_ %>% mutate(surface = 2)
+binding_energy3 <- binding_energy_ %>% mutate(surface = 3)
+binding_energy <- bind_rows(binding_energy, binding_energy2, binding_energy3)
 
 
 #Modify the y values for surface 2, adding three different gaussians but maintaining the y value for x=0
@@ -125,20 +126,30 @@ binding_energy$y[binding_energy$surface == 3] <- binding_energy$y[binding_energy
 #Create a plot of the potential energy surface with different colored regions for different surfaces
 pes_plot4 <- ggplot(binding_energy, aes(x = x, y = y, color = as.factor(surface))) +
   geom_line() +
-  labs(x = "Generalized Coordinates of the System",
+  labs(x = "Generalized Coordinates of a Protein-ligand complex",
        y = "Binding Energy Estimate (Score)") +
-  scale_color_manual(values = c("blue", "green", "red")) +
+#Add 
+  scale_color_manual(values = c("#e69f00", "#56b4e9", "#009E73")) +
   scale_x_continuous(labels = NULL, breaks = NULL)+
   scale_y_continuous(labels = NULL, breaks = NULL)+
   #add a dot for x=0
-    geom_point(data = binding_energy %>% filter(x == 0), color = "black") +
+    geom_point(data = binding_energy %>% filter(surface==1 & x == 0) %>% mutate(y= -1.01), color = "black") +
+  #add a black dotted line for y=  -0.05
+    geom_hline(yintercept = -1.01, linetype = "dotted", color = "black") +
+  #add label for dot
+    geom_label_repel(data = binding_energy %>% filter(surface==1 & x == 0) %>% mutate(y= -1.01), aes(label = "Experimental\nStructure"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = "black" , nudge_x = 0.00, nudge_y = -0.6) +
+    geom_label_repel(data = binding_energy %>% filter(surface==1 & x == 0) %>% mutate(y= -1.01), aes(label = "Experimental\nBinding affinity"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = -2.90, nudge_y = 0.0) +
+  #add visible non overlapping labels for lines
+    geom_label_repel(data = binding_energy %>% filter(surface==1 & x == -1) , aes(label = "Scoring function 1"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "#e69f00",  segment.color = NA , nudge_x = 0.50, nudge_y = 0.15) +
+    geom_label_repel(data = binding_energy %>% filter(surface==2 & x == 2.0) , aes(label = "Scoring function 2"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "#56b4e9",  segment.color = NA , nudge_x = -0.80, nudge_y = 0.4) +
+    geom_label_repel(data = binding_energy %>% filter(surface==3 & x == 2.5) , aes(label = "Scoring function 3"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "#009E73",  segment.color = NA , nudge_x = 0.05, nudge_y = 0.0) +
   theme_light()+
   #remove legend
     theme(legend.position = "none")
-
   pes_plot4
 ggsave("pes_plot_2_colors.png", plot = pes_plot4, width = 6, height = 4, units = "in", dpi = 300)
-
+#cbPalette <- c("#d55e00", "#009E73", "#F5C710")
+#scale_color_manual(values = c("0 dose" = "#000000", "1+ doses" = "#e69f00", "2+ doses" = "#56b4e9", "3+ doses" = "#0071b2"))
 
 #Do the correct virtual screening plot
 binding_energy <- data.frame(x = pes$x, y = -pes$y, y2= -pes$y2, y3= -pes$y3)
