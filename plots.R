@@ -105,6 +105,7 @@ binding_energy <- binding_energy %>% mutate(surface = 1)
 binding_energy <- binding_energy %>% bind_rows(mutate(binding_energy, surface = 2))
 binding_energy <- binding_energy %>% bind_rows(mutate(binding_energy, surface = 3))
 
+
 #Modify the y values for surface 2, adding three different gaussians but maintaining the y value for x=0
 binding_energy$y[binding_energy$surface == 2] <- with(binding_energy[binding_energy$surface == 1,], 0.0 * exp(-(x-0)^2) - 3.0 * exp(-(x - 1)^2) - 3 * exp(-(x + 1)^2))
 #Do the same for surface 3, with different gaussians but same y value for x=0 as surface 1
@@ -122,7 +123,7 @@ binding_energy$y[binding_energy$surface == 3] <- binding_energy$y[binding_energy
 
 
 #Create a plot of the potential energy surface with different colored regions for different surfaces
-pes_plot2 <- ggplot(binding_energy, aes(x = x, y = y, color = as.factor(surface))) +
+pes_plot4 <- ggplot(binding_energy, aes(x = x, y = y, color = as.factor(surface))) +
   geom_line() +
   labs(x = "Generalized Coordinates of the System",
        y = "Binding Energy Estimate (Score)") +
@@ -135,8 +136,107 @@ pes_plot2 <- ggplot(binding_energy, aes(x = x, y = y, color = as.factor(surface)
   #remove legend
     theme(legend.position = "none")
 
-  pes_plot2
-ggsave("pes_plot_2.png", plot = pes_plot2, width = 6, height = 4, units = "in", dpi = 300)
+  pes_plot4
+ggsave("pes_plot_2_colors.png", plot = pes_plot4, width = 6, height = 4, units = "in", dpi = 300)
+
+
+#Do the correct virtual screening plot
+binding_energy <- data.frame(x = pes$x, y = -pes$y, y2= -pes$y2, y3= -pes$y3)
+#Now take binding energy, create a new column named surface with value 1, duplicate all rows with surface value 2 and 3
+binding_energy <- binding_energy %>% mutate(surface = 1)
+binding_energy <- binding_energy %>% bind_rows(mutate(binding_energy, surface = 2))
+binding_energy <- binding_energy %>% bind_rows(mutate(binding_energy, surface = 3))
+binding_energy <- binding_energy %>% bind_rows(mutate(binding_energy, surface = 4))
+
+
+binding_energy$y[binding_energy$surface == 1] <- with(binding_energy[binding_energy$surface == 1,], -3.0 * exp(-(x+0.3)^2) - 1.0 * exp(-(x - 2.5)^2) - 0.3 * exp(-(x + 2)^2))
+#Modify the y values for surface 2, adding three different gaussians but maintaining the y value for x=0
+binding_energy$y[binding_energy$surface == 2] <- with(binding_energy[binding_energy$surface == 1,], -1.0 * exp(-(x-0)^2) - 0.5 * exp(-(x - 1)^2) - 1.0 * exp(-(x + 2.5)^2) - 1 * exp(-(x + 2)^2)  - 1 * exp(-(x + 1)^2))
+#Do the same for surface 3, with different gaussians but same y value for x=0 as surface 1
+binding_energy$y[binding_energy$surface == 3] <- with(binding_energy[binding_energy$surface == 1,], -1.0 * exp(-(x+0.3)^2) - 1.5 * exp(-(x - 2)^2) - 0.5 * exp(-(x + 2)^2))
+#Surface 4
+binding_energy$y[binding_energy$surface == 4] <- with(binding_energy[binding_energy$surface == 1,], -0.5 * exp(-(x-0)^2) - 2.0 * exp(-(x - 1)^2) - 1 * exp(-(x + 1)^2))
+
+#Create a plot of the potential energy surface with different colored regions for different surfaces
+pes_plot5 <- ggplot(binding_energy, aes(x = x, y = y, color = as.factor(surface))) +
+  geom_line() +
+  labs(x = "Generalized Coordinates of the System",
+       y = "Binding Energy Estimate (Score)") +
+  scale_color_manual(values = c("green", "gray", "gray", "gray")) +
+  scale_x_continuous(labels = NULL, breaks = NULL)+
+  scale_y_continuous(labels = NULL, breaks = NULL)+
+  #add a dot for x=0
+    geom_point(data = binding_energy %>% filter(surface==1) %>% filter(y == min(y)) %>% unique(), color = "black") +
+    geom_label_repel(data = binding_energy %>% filter(surface==1) %>% filter(y == min(y)) %>% unique(), aes(label = "Active compound"), label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "green", segment.size = 0.5,nudge_x = 0.00, nudge_y = -0.3) +
+    geom_label_repel(data = binding_energy %>% filter(surface==1) %>% filter(y == min(y)) %>% unique(), aes(label = "Active compound"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.00, nudge_y = -0.3) +
+    geom_point(data = binding_energy %>% filter(surface==2) %>% filter(y == min(y)) %>% unique(), color = "red") +
+    geom_label_repel(data = binding_energy %>% filter(surface==2) %>% filter(y == min(y)) %>% unique(), aes(label = "Decoy1"), label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "red", segment.size = 0.5,nudge_x = -0.30, nudge_y = -0.0) +
+    geom_label_repel(data = binding_energy %>% filter(surface==2) %>% filter(y == min(y)) %>% unique(), aes(label = "Decoy1"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = -0.30, nudge_y = -0.0) +
+    geom_point(data = binding_energy %>% filter(surface==3) %>% filter(y == min(y)) %>% unique(), color = "red") +
+        geom_label_repel(data = binding_energy %>% filter(surface==3) %>% filter(y == min(y)) %>% unique(), aes(label = "Decoy2"), label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "red", segment.size = 0.5,nudge_x = 0.20, nudge_y = -0.0) +
+    geom_label_repel(data = binding_energy %>% filter(surface==3) %>% filter(y == min(y)) %>% unique(), aes(label = "Decoy2"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.20, nudge_y = -0.0) +
+    geom_point(data = binding_energy %>% filter(surface==4) %>% filter(y == min(y)) %>% unique(), color = "red") +
+        geom_label_repel(data = binding_energy %>% filter(surface==4) %>% filter(y == min(y)) %>% unique(), aes(label = "Decoy3"), label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "red", segment.size = 0.5,nudge_x = 0.30, nudge_y = 0.0) +
+    geom_label_repel(data = binding_energy %>% filter(surface==4) %>% filter(y == min(y)) %>% unique(), aes(label = "Decoy3"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.30, nudge_y = 0.0) +
+  theme_light()+
+  #remove legend
+    theme(legend.position = "none")
+
+  pes_plot5
+ggsave("pes_plot_VS.png", plot = pes_plot5, width = 6, height = 4, units = "in", dpi = 300)
+
+#get x values for minimums
+s1min1 <- binding_energy %>% filter(surface==1) %>% filter(y == min(y)) %>% unique()
+s2min1 <- binding_energy %>% filter(surface==2) %>% filter(y == min(y)) %>% unique()
+s3min1 <- binding_energy %>% filter(surface==3) %>% filter(y == min(y)) %>% unique()
+s4min1 <- binding_energy %>% filter(surface==4) %>% filter(y == min(y)) %>% unique()
+
+
+#Do the correct virtual screening plot
+binding_energy <- data.frame(x = pes$x, y = -pes$y, y2= -pes$y2, y3= -pes$y3)
+#Now take binding energy, create a new column named surface with value 1, duplicate all rows with surface value 2 and 3
+binding_energy <- binding_energy %>% mutate(surface = 1)
+binding_energy <- binding_energy %>% bind_rows(mutate(binding_energy, surface = 2))
+binding_energy <- binding_energy %>% bind_rows(mutate(binding_energy, surface = 3))
+binding_energy <- binding_energy %>% bind_rows(mutate(binding_energy, surface = 4))
+
+
+binding_energy$y[binding_energy$surface == 1] <- with(binding_energy[binding_energy$surface == 1,], -0.9 * exp(-(x+0.3)^2) - 1.0 * exp(-(x - 2.5)^2) - 0.6 * exp(-(x + 2)^2))
+#Modify the y values for surface 2, adding three different gaussians but maintaining the y value for x=0
+binding_energy$y[binding_energy$surface == 2] <- with(binding_energy[binding_energy$surface == 1,], -0.5 * exp(-(x-0)^2) - 1.5 * exp(-(x - 1)^2) - 0.5 * exp(-(x + 1.5)^2)  - 0.75 * exp(-(x + 1)^2))
+#Do the same for surface 3, with different gaussians but same y value for x=0 as surface 1
+binding_energy$y[binding_energy$surface == 3] <- with(binding_energy[binding_energy$surface == 1,], -1.0 * exp(-(x+0.3)^2) - 0.0 * exp(-(x - 2)^2) - 1.5 * exp(-(x + 2)^2))
+#Surface 4
+binding_energy$y[binding_energy$surface == 4] <- with(binding_energy[binding_energy$surface == 1,], -0.25 * exp(-(x-0)^2) - 0.3 * exp(-(x - 1)^2) - 1.1 * exp(-(x + 1)^2))
+
+#Create a plot of the potential energy surface with different colored regions for different surfaces
+pes_plot6 <- ggplot(binding_energy, aes(x = x, y = y, color = as.factor(surface))) +
+  geom_line() +
+  labs(x = "Generalized Coordinates of the System",
+       y = "Binding Energy Estimate (Score)") +
+  scale_color_manual(values = c("green", "gray", "gray", "gray")) +
+  scale_x_continuous(labels = NULL, breaks = NULL)+
+  scale_y_continuous(labels = NULL, breaks = NULL)+
+  #add a dot for x=0
+    geom_point(data = binding_energy %>% filter(surface==1) %>% filter(x %in% s1min1$x ) %>% unique(), color = "black") +
+    geom_label_repel(data = binding_energy %>% filter(surface==1) %>% filter(x %in% s1min1$x ) %>% unique(), aes(label = "Active compound"), label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "green", segment.size = 0.5,nudge_x = 0.00, nudge_y = -0.3) +
+    geom_label_repel(data = binding_energy %>% filter(surface==1) %>% filter(x %in% s1min1$x ) %>% unique(), aes(label = "Active compound"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.00, nudge_y = -0.3) +
+    geom_point(data = binding_energy %>% filter(surface==2) %>% filter(x %in% s2min1$x ) %>% unique(), color = "red") +
+    geom_label_repel(data = binding_energy %>% filter(surface==2) %>% filter(x %in% s2min1$x ) %>% unique(), aes(label = "Decoy1"), label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "red", segment.size = 0.5,nudge_x = -0.30, nudge_y = -0.0) +
+    geom_label_repel(data = binding_energy %>% filter(surface==2) %>% filter(x %in% s2min1$x ) %>% unique(), aes(label = "Decoy1"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = -0.30, nudge_y = -0.0) +
+    geom_point(data = binding_energy %>% filter(surface==3) %>% filter(x %in% s3min1$x ) %>% unique(), color = "red") +
+        geom_label_repel(data = binding_energy %>% filter(surface==3) %>% filter(x %in% s3min1$x ) %>% unique(), aes(label = "Decoy2"), label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "red", segment.size = 0.5,nudge_x = 0.20, nudge_y = -0.0) +
+    geom_label_repel(data = binding_energy %>% filter(surface==3) %>% filter(x %in% s3min1$x ) %>% unique(), aes(label = "Decoy2"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.20, nudge_y = -0.0) +
+    geom_point(data = binding_energy %>% filter(surface==4) %>% filter(x %in% s4min1$x ) %>% unique(), color = "red") +
+        geom_label_repel(data = binding_energy %>% filter(surface==4) %>% filter(x %in% s4min1$x ) %>% unique(), aes(label = "Decoy3"), label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "red", segment.size = 0.5,nudge_x = 0.30, nudge_y = 0.0) +
+    geom_label_repel(data = binding_energy %>% filter(surface==4) %>% filter(x %in% s4min1$x ) %>% unique(), aes(label = "Decoy3"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.30, nudge_y = 0.0) +
+  theme_light()+
+  #remove legend
+    theme(legend.position = "none")
+
+  pes_plot6
+ggsave("pes_plot_VS2.png", plot = pes_plot6, width = 6, height = 4, units = "in", dpi = 300)
+
 
 
 #Create a dataframe where y=ax+b, where a=0.6 and b=-8, and add some noise
@@ -183,4 +283,7 @@ data_plot <- ggplot(data, aes(x = x, y = y, shape = surface)) +
 data_plot
 
 ggsave("scatter_plot.png", plot = data_plot, width = 6, height = 6, units = "in", dpi = 300)
+
+
+
 
