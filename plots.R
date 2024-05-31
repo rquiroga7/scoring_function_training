@@ -131,7 +131,7 @@ pes_plot4 <- ggplot(binding_energy %>% filter(surface!=2), aes(x = x, y = y, col
   labs(x = "Generalized Coordinates of a Protein-ligand complex",
        y = "Binding Energy Estimate (Score)") +
 #Add 
-  scale_color_manual(values = c("#e69f00", "#56b4e9", "#009E73")) +
+  scale_color_manual(values = c("#56b4e9", "#e69f00", "#009E73")) +
   scale_x_continuous(labels = NULL, breaks = NULL)+
   scale_y_continuous(labels = NULL, breaks = NULL)+
   #add a dot for x=0
@@ -142,9 +142,9 @@ pes_plot4 <- ggplot(binding_energy %>% filter(surface!=2), aes(x = x, y = y, col
     geom_label_repel(data = binding_energy %>% filter(surface==1 & x == 0) %>% mutate(y= -1.01), aes(label = "Experimental\nStructure"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = "black" , nudge_x = 0.00, nudge_y = -0.6) +
     geom_label_repel(data = binding_energy %>% filter(surface==1 & x == 0) %>% mutate(y= -1.01), aes(label = "Experimental\nBinding affinity"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = -2.90, nudge_y = 0.0) +
   #add visible non overlapping labels for lines
-    geom_label_repel(data = binding_energy %>% filter(surface==1 & x == -1) , aes(label = "Scoring function 1"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "#e69f00",  segment.color = NA , nudge_x = 0.50, nudge_y = 0.15) +
+    geom_label_repel(data = binding_energy %>% filter(surface==1 & x == -1) , aes(label = "Scoring function 1"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "#56b4e9",  segment.color = NA , nudge_x = 0.50, nudge_y = 0.15) +
     #geom_label_repel(data = binding_energy %>% filter(surface==2 & x == 2.0) , aes(label = "Scoring function 2"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "#56b4e9",  segment.color = NA , nudge_x = -0.80, nudge_y = 0.4) +
-    geom_label_repel(data = binding_energy %>% filter(surface==3 & x == 2.5) , aes(label = "Scoring function 2"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "#56b4e9",  segment.color = NA , nudge_x = 0.05, nudge_y = 0.0) +
+    geom_label_repel(data = binding_energy %>% filter(surface==3 & x == 2.5) , aes(label = "Scoring function 2"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "#e69f00",  segment.color = NA , nudge_x = 0.05, nudge_y = 0.0) +
   theme_light()+
   #remove legend
     theme(legend.position = "none")
@@ -183,28 +183,28 @@ pes_plot5 <- ggplot(binding_energy, aes(x = x, y = y, color = as.factor(surface)
   geom_line(linewidth=1.1) +
   labs(x = "Generalized Coordinates of each Protein-Ligand complex",
        y = "Binding Energy Estimate (Score)") +
-  #scale_color_manual(values = c("black", "darkgray", "darkgray", "darkgray"), labels = c("Active compound", "Decoy1", "Decoy2", "Decoy3")) +
-  #scale_linetype_manual(values = c("solid","solid","dashed","dotted"), labels = c("Active compound", "Decoy1", "Decoy2", "Decoy3")) +
-  scale_color_manual(values = c("black", "darkgray", "darkgray"), labels = c("Active compound", "Decoy1", "Decoy2")) +
-  scale_linetype_manual(values = c("solid","dashed","dotted"), labels = c("Active compound", "Decoy1", "Decoy2")) +
+  #scale_color_manual(values = c("black", "darkgray", "darkgray", "darkgray"), labels = c("Active compound", "Inactive1", "Inactive2", "Inactive3")) +
+  #scale_linetype_manual(values = c("solid","solid","dashed","dotted"), labels = c("Active compound", "Inactive1", "Inactive2", "Inactive3")) +
+  scale_color_manual(values = c("#56b4e9", "#56b4e9", "#56b4e9"), labels = c("Active compound", "Inactive1", "Inactive2")) +
+  scale_linetype_manual(values = c("solid","dashed","dotted"), labels = c("Active compound", "Inactive1", "Inactive2")) +
   scale_x_continuous(labels = NULL, breaks = NULL)+
   scale_y_continuous(labels = NULL, breaks = NULL)+
   #add a dot for x=0
-    geom_point(data = binding_energy %>% filter(surface==1) %>% filter(y == min(y)) %>% unique(), color = "#009E73") +
+    geom_point(data = binding_energy %>% filter(surface==1) %>% filter(y == min(y)) %>% unique(), color = "black") +
     geom_label_repel(data = binding_energy %>% filter(surface==1) %>% filter(y == min(y)) %>% unique(), aes(label = "Active\ncompound"), min.segment.length = 0.01, label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "#009E73", segment.size = 0.5,nudge_x = 0.00, nudge_y = -0.5) +
     geom_label_repel(data = binding_energy %>% filter(surface==1) %>% filter(y == min(y)) %>% unique(), aes(label = "Active\ncompound"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.00, nudge_y = -0.5) +
-    geom_point(data = binding_energy %>% filter(surface==2) %>% filter(y == min(y)) %>% unique(), color = "#d55e00") +
-    geom_label_repel(data = binding_energy %>% filter(surface==2) %>% filter(y == min(y)) %>% unique(), aes(label = "Decoy1"),min.segment.length = 0.01, label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "#d55e00", segment.size = 0.5,nudge_x = -0.00, nudge_y = -0.05) +
-    geom_label_repel(data = binding_energy %>% filter(surface==2) %>% filter(y == min(y)) %>% unique(), aes(label = "Decoy1"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = -0.00, nudge_y = -0.05) +
-    geom_point(data = binding_energy %>% filter(surface==3) %>% filter(y == min(y)) %>% unique(), color = "#d55e00") +
-    geom_label_repel(data = binding_energy %>% filter(surface==3) %>% filter(y == min(y)) %>% unique(), aes(label = "Decoy2"),min.segment.length = 0.01, label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "#d55e00", segment.size = 0.5,nudge_x = 0.00, nudge_y = -0.05) +
-    geom_label_repel(data = binding_energy %>% filter(surface==3) %>% filter(y == min(y)) %>% unique(), aes(label = "Decoy2"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.00, nudge_y = -0.05) +
+    geom_point(data = binding_energy %>% filter(surface==2) %>% filter(y == min(y)) %>% unique(), color = "black") +
+    geom_label_repel(data = binding_energy %>% filter(surface==2) %>% filter(y == min(y)) %>% unique(), aes(label = "Inactive1"),min.segment.length = 0.01, label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "black", segment.size = 0.5,nudge_x = -0.00, nudge_y = -0.05) +
+    geom_label_repel(data = binding_energy %>% filter(surface==2) %>% filter(y == min(y)) %>% unique(), aes(label = "Inactive1"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = -0.00, nudge_y = -0.05) +
+    geom_point(data = binding_energy %>% filter(surface==3) %>% filter(y == min(y)) %>% unique(), color = "black") +
+    geom_label_repel(data = binding_energy %>% filter(surface==3) %>% filter(y == min(y)) %>% unique(), aes(label = "Inactive2"),min.segment.length = 0.01, label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "black", segment.size = 0.5,nudge_x = 0.00, nudge_y = -0.05) +
+    geom_label_repel(data = binding_energy %>% filter(surface==3) %>% filter(y == min(y)) %>% unique(), aes(label = "Inactive2"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.00, nudge_y = -0.05) +
     #geom_point(data = binding_energy %>% filter(surface==4) %>% filter(y == min(y)) %>% unique(), color = "#d55e00") +
-    #geom_label_repel(data = binding_energy %>% filter(surface==4) %>% filter(y == min(y)) %>% unique(), aes(label = "Decoy3"),min.segment.length = 0.01, label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "#d55e00", segment.size = 0.5,nudge_x = 0.00, nudge_y = -0.05) +
-    #geom_label_repel(data = binding_energy %>% filter(surface==4) %>% filter(y == min(y)) %>% unique(), aes(label = "Decoy3"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.00, nudge_y = -0.05) +
+    #geom_label_repel(data = binding_energy %>% filter(surface==4) %>% filter(y == min(y)) %>% unique(), aes(label = "Inactive3"),min.segment.length = 0.01, label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "#d55e00", segment.size = 0.5,nudge_x = 0.00, nudge_y = -0.05) +
+    #geom_label_repel(data = binding_energy %>% filter(surface==4) %>% filter(y == min(y)) %>% unique(), aes(label = "Inactive3"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.00, nudge_y = -0.05) +
   theme_light()+
   theme(legend.position = "bottom")+
-  #show a legend titled "Protein-ligand complex", and the names "Active compound", "Decoy1", "Decoy2", "Decoy3"
+  #show a legend titled "Protein-ligand complex", and the names "Active compound", "Inactive1", "Inactive2", "Inactive3"
   labs(color = "",linetype = "")
 
 pes_plot5b<- pes_plot5 + theme(legend.key.width=unit(1.2,"cm"))
@@ -231,28 +231,28 @@ pes_plot6 <- ggplot(binding_energy, aes(x = x, y = y, color = as.factor(surface)
   geom_line(linewidth=1.2) +
   labs(x = "Generalized Coordinates of each Protein-Ligand complex",
        y = "Binding Energy Estimate (Score)") +
-  #scale_color_manual(values = c("black", "darkgray", "darkgray", "darkgray"), labels = c("Active compound", "Decoy1", "Decoy2", "Decoy3")) +
-  #scale_linetype_manual(values = c("solid","solid","dashed","dotted"), labels = c("Active compound", "Decoy1", "Decoy2", "Decoy3")) +
-  scale_color_manual(values = c("black", "darkgray", "darkgray"), labels = c("Active compound", "Decoy1", "Decoy2")) +
-  scale_linetype_manual(values = c("solid","dashed","dotted"), labels = c("Active compound", "Decoy1", "Decoy2")) +
+  #scale_color_manual(values = c("black", "darkgray", "darkgray", "darkgray"), labels = c("Active compound", "Inactive1", "Inactive2", "Inactive3")) +
+  #scale_linetype_manual(values = c("solid","solid","dashed","dotted"), labels = c("Active compound", "Inactive1", "Inactive2", "Inactive3")) +
+  scale_color_manual(values = c("#e69f00", "#e69f00", "#e69f00"), labels = c("Active compound", "Inactive1", "Inactive2")) +
+  scale_linetype_manual(values = c("solid","dashed","dotted"), labels = c("Active compound", "Inactive1", "Inactive2")) +
   scale_x_continuous(labels = NULL, breaks = NULL)+
   scale_y_continuous(labels = NULL, breaks = NULL)+
   #add a dot for x=0
-    geom_point(data = binding_energy %>% filter(surface==1) %>% filter(x %in% s1min1$x ) %>% unique(), color = "#009E73") +
+    geom_point(data = binding_energy %>% filter(surface==1) %>% filter(x %in% s1min1$x ) %>% unique(), color = "black") +
     geom_label_repel(data = binding_energy %>% filter(surface==1) %>% filter(x %in% s1min1$x ) %>% unique(), aes(label = "Active\ncompound"), label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "#009E73", segment.size = 0.5,nudge_x = -0.00, nudge_y = 0.3) +
     geom_label_repel(data = binding_energy %>% filter(surface==1) %>% filter(x %in% s1min1$x ) %>% unique(), aes(label = "Active\ncompound"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = -0.00, nudge_y = 0.3) +
-    geom_point(data = binding_energy %>% filter(surface==2) %>% filter(x %in% s2min1$x ) %>% unique(), color = "#d55e00") +
-    geom_label_repel(data = binding_energy %>% filter(surface==2) %>% filter(x %in% s2min1$x ) %>% unique(), aes(label = "Decoy1"), label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "#d55e00", segment.size = 0.5,nudge_x = 0.00, nudge_y = 0.3) +
-    geom_label_repel(data = binding_energy %>% filter(surface==2) %>% filter(x %in% s2min1$x ) %>% unique(), aes(label = "Decoy1"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.00, nudge_y = 0.3) +
-    geom_point(data = binding_energy %>% filter(surface==3) %>% filter(x %in% s3min1$x ) %>% unique(), color = "#d55e00") +
-    geom_label_repel(data = binding_energy %>% filter(surface==3) %>% filter(x %in% s3min1$x ) %>% unique(), aes(label = "Decoy2"), min.segment.length = 0.01, label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "#d55e00", segment.size = 0.5,nudge_x = 0.00, nudge_y = -0.1) +
-    geom_label_repel(data = binding_energy %>% filter(surface==3) %>% filter(x %in% s3min1$x ) %>% unique(), aes(label = "Decoy2"), min.segment.length = 0.01, label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.00, nudge_y = -0.1) +
+    geom_point(data = binding_energy %>% filter(surface==2) %>% filter(x %in% s2min1$x ) %>% unique(), color = "black") +
+    geom_label_repel(data = binding_energy %>% filter(surface==2) %>% filter(x %in% s2min1$x ) %>% unique(), aes(label = "Inactive1"), label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "black", segment.size = 0.5,nudge_x = 0.00, nudge_y = 0.3) +
+    geom_label_repel(data = binding_energy %>% filter(surface==2) %>% filter(x %in% s2min1$x ) %>% unique(), aes(label = "Inactive1"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.00, nudge_y = 0.3) +
+    geom_point(data = binding_energy %>% filter(surface==3) %>% filter(x %in% s3min1$x ) %>% unique(), color = "black") +
+    geom_label_repel(data = binding_energy %>% filter(surface==3) %>% filter(x %in% s3min1$x ) %>% unique(), aes(label = "Inactive2"), min.segment.length = 0.01, label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "black", segment.size = 0.5,nudge_x = 0.00, nudge_y = -0.1) +
+    geom_label_repel(data = binding_energy %>% filter(surface==3) %>% filter(x %in% s3min1$x ) %>% unique(), aes(label = "Inactive2"), min.segment.length = 0.01, label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.00, nudge_y = -0.1) +
     #geom_point(data = binding_energy %>% filter(surface==4) %>% filter(x %in% s4min1$x ) %>% unique(), color = "#d55e00") +
-    #geom_label_repel(data = binding_energy %>% filter(surface==4) %>% filter(x %in% s4min1$x ) %>% unique(), aes(label = "Decoy3"), label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "#d55e00", segment.size = 0.5,nudge_x = 0.00, nudge_y = 0.14) +
-    #geom_label_repel(data = binding_energy %>% filter(surface==4) %>% filter(x %in% s4min1$x ) %>% unique(), aes(label = "Decoy3"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.00, nudge_y = 0.14) +
+    #geom_label_repel(data = binding_energy %>% filter(surface==4) %>% filter(x %in% s4min1$x ) %>% unique(), aes(label = "Inactive3"), label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "#d55e00", segment.size = 0.5,nudge_x = 0.00, nudge_y = 0.14) +
+    #geom_label_repel(data = binding_energy %>% filter(surface==4) %>% filter(x %in% s4min1$x ) %>% unique(), aes(label = "Inactive3"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.00, nudge_y = 0.14) +
   theme_light()+
   theme(legend.position = "bottom",legend.key.size = unit(0.5, "in"))+
-  #show a legend titled "Protein-ligand complex", and the names "Active compound", "Decoy1", "Decoy2", "Decoy3"
+  #show a legend titled "Protein-ligand complex", and the names "Active compound", "Inactive1", "Inactive2", "Inactive3"
   labs(color = "",linetype = "")
   
 pes_plot6b<- pes_plot6 + theme(legend.key.width=unit(1.2,"cm"))
