@@ -1,0 +1,106 @@
+PMID- 37230374
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20230619
+LR  - 20240227
+IS  - 1878-1454 (Electronic)
+IS  - 1570-9639 (Linking)
+VI  - 1871
+IP  - 4
+DP  - 2023 Jul 1
+TI  - Comparison of force fields to study the zinc-finger containing protein NPL4, a 
+      target for disulfiram in cancer therapy.
+PG  - 140921
+LID - S1570-9639(23)00035-3 [pii]
+LID - 10.1016/j.bbapap.2023.140921 [doi]
+AB  - Molecular dynamics (MD) simulations are a powerful approach to studying the 
+      structure and dynamics of proteins related to health and disease. Advances in the 
+      MD field allow modeling proteins with high accuracy. However, modeling metal ions 
+      and their interactions with proteins is still challenging. NPL4 is a zinc-binding 
+      protein and works as a cofactor for p97 to regulate protein homeostasis. NPL4 is 
+      of biomedical importance and has been proposed as the target of disulfiram, a 
+      drug recently repurposed for cancer treatment. Experimental studies proposed that 
+      the disulfiram metabolites, bis-(diethyldithiocarbamate)‑copper and cupric ions, 
+      induce NPL4 misfolding and aggregation. However, the molecular details of their 
+      interactions with NPL4 and consequent structural effects are still elusive. Here, 
+      biomolecular simulations can help to shed light on the related structural 
+      details. To apply MD simulations to NPL4 and its interaction with copper the 
+      first important step is identifying a suitable force field to describe the 
+      protein in its zinc-bound states. We examined different sets of non-bonded 
+      parameters because we want to study the misfolding mechanism and cannot rule out 
+      that the zinc may detach from the protein during the process and copper replaces 
+      it. We investigated the force-field ability to model the coordination geometry of 
+      the metal ions by comparing the results from MD simulations with optimized 
+      geometries from quantum mechanics (QM) calculations using model systems of NPL4. 
+      Furthermore, we investigated the performance of a force field including bonded 
+      parameters to treat copper ions in NPL4 that we obtained based on QM 
+      calculations.
+CI  - Copyright © 2023 The Authors. Published by Elsevier B.V. All rights reserved.
+FAU - Scrima, Simone
+AU  - Scrima S
+AD  - Cancer Structural Biology, Danish Cancer Society Research Center, 2100 
+      Copenhagen, Denmark; Cancer Systems Biology, Section for Bioinformatics, 
+      Department of Health and Technology, Technical University of Denmark, 2800 
+      Lyngby, Denmark.
+FAU - Tiberti, Matteo
+AU  - Tiberti M
+AD  - Cancer Structural Biology, Danish Cancer Society Research Center, 2100 
+      Copenhagen, Denmark.
+FAU - Ryde, Ulf
+AU  - Ryde U
+AD  - Division of Theoretical Chemistry, Lund University, Chemical Centre, P. O. Box 
+      124, SE-221 00 Lund, Sweden.
+FAU - Lambrughi, Matteo
+AU  - Lambrughi M
+AD  - Cancer Structural Biology, Danish Cancer Society Research Center, 2100 
+      Copenhagen, Denmark.
+FAU - Papaleo, Elena
+AU  - Papaleo E
+AD  - Cancer Structural Biology, Danish Cancer Society Research Center, 2100 
+      Copenhagen, Denmark; Cancer Systems Biology, Section for Bioinformatics, 
+      Department of Health and Technology, Technical University of Denmark, 2800 
+      Lyngby, Denmark. Electronic address: elenap@cancer.dk.
+LA  - eng
+PT  - Journal Article
+PT  - Research Support, Non-U.S. Gov't
+DEP - 20230524
+PL  - Netherlands
+TA  - Biochim Biophys Acta Proteins Proteom
+JT  - Biochimica et biophysica acta. Proteins and proteomics
+JID - 101731734
+RN  - TR3MLJ1UAI (Disulfiram)
+RN  - 789U1901C5 (Copper)
+RN  - 0 (Proteins)
+RN  - J41CSQ7QDS (Zinc)
+RN  - 0 (Ions)
+SB  - IM
+MH  - Humans
+MH  - *Disulfiram/therapeutic use
+MH  - Copper/chemistry
+MH  - *Neoplasms/drug therapy
+MH  - Proteins
+MH  - Zinc/chemistry
+MH  - Ions/chemistry/metabolism
+OTO - NOTNLM
+OT  - Copper
+OT  - Metal coordination
+OT  - Metal ions
+OT  - Molecular dynamics
+OT  - Quantum mechanics
+COIS- Declaration of Competing Interest The authors declare that they have no known 
+      competing financial interests or personal relationships that could have appeared 
+      to influence the work reported in this paper.
+EDAT- 2023/05/26 01:05
+MHDA- 2023/06/19 13:08
+CRDT- 2023/05/25 19:28
+PHST- 2023/03/30 00:00 [received]
+PHST- 2023/05/16 00:00 [revised]
+PHST- 2023/05/19 00:00 [accepted]
+PHST- 2023/06/19 13:08 [medline]
+PHST- 2023/05/26 01:05 [pubmed]
+PHST- 2023/05/25 19:28 [entrez]
+AID - S1570-9639(23)00035-3 [pii]
+AID - 10.1016/j.bbapap.2023.140921 [doi]
+PST - ppublish
+SO  - Biochim Biophys Acta Proteins Proteom. 2023 Jul 1;1871(4):140921. doi: 
+      10.1016/j.bbapap.2023.140921. Epub 2023 May 24.

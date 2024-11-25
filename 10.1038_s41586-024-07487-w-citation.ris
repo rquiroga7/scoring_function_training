@@ -1,0 +1,63 @@
+TY  - JOUR
+AU  - Abramson, Josh
+AU  - Adler, Jonas
+AU  - Dunger, Jack
+AU  - Evans, Richard
+AU  - Green, Tim
+AU  - Pritzel, Alexander
+AU  - Ronneberger, Olaf
+AU  - Willmore, Lindsay
+AU  - Ballard, Andrew J.
+AU  - Bambrick, Joshua
+AU  - Bodenstein, Sebastian W.
+AU  - Evans, David A.
+AU  - Hung, Chia-Chun
+AU  - O’Neill, Michael
+AU  - Reiman, David
+AU  - Tunyasuvunakool, Kathryn
+AU  - Wu, Zachary
+AU  - Žemgulytė, Akvilė
+AU  - Arvaniti, Eirini
+AU  - Beattie, Charles
+AU  - Bertolli, Ottavia
+AU  - Bridgland, Alex
+AU  - Cherepanov, Alexey
+AU  - Congreve, Miles
+AU  - Cowen-Rivers, Alexander I.
+AU  - Cowie, Andrew
+AU  - Figurnov, Michael
+AU  - Fuchs, Fabian B.
+AU  - Gladman, Hannah
+AU  - Jain, Rishub
+AU  - Khan, Yousuf A.
+AU  - Low, Caroline M. R.
+AU  - Perlin, Kuba
+AU  - Potapenko, Anna
+AU  - Savy, Pascal
+AU  - Singh, Sukhdeep
+AU  - Stecula, Adrian
+AU  - Thillaisundaram, Ashok
+AU  - Tong, Catherine
+AU  - Yakneen, Sergei
+AU  - Zhong, Ellen D.
+AU  - Zielinski, Michal
+AU  - Žídek, Augustin
+AU  - Bapst, Victor
+AU  - Kohli, Pushmeet
+AU  - Jaderberg, Max
+AU  - Hassabis, Demis
+AU  - Jumper, John M.
+PY  - 2024
+DA  - 2024/06/01
+TI  - Accurate structure prediction of biomolecular interactions with AlphaFold 3
+JO  - Nature
+SP  - 493
+EP  - 500
+VL  - 630
+IS  - 8016
+AB  - The introduction of AlphaFold 21 has spurred a revolution in modelling the structure of proteins and their interactions, enabling a huge range of applications in protein modelling and design2–6. Here we describe our AlphaFold 3 model with a substantially updated diffusion-based architecture that is capable of predicting the joint structure of complexes including proteins, nucleic acids, small molecules, ions and modified residues. The new AlphaFold model demonstrates substantially improved accuracy over many previous specialized tools: far greater accuracy for protein–ligand interactions compared with state-of-the-art docking tools, much higher accuracy for protein–nucleic acid interactions compared with nucleic-acid-specific predictors and substantially higher antibody–antigen prediction accuracy compared with AlphaFold-Multimer v.2.37,8. Together, these results show that high-accuracy modelling across biomolecular space is possible within a single unified deep-learning framework.
+SN  - 1476-4687
+UR  - https://doi.org/10.1038/s41586-024-07487-w
+DO  - 10.1038/s41586-024-07487-w
+ID  - Abramson2024
+ER  - 

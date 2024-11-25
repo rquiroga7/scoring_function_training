@@ -4,6 +4,7 @@ library(dplyr)
 library(ggrepel)
 library(cowplot)
 
+
 #Create a data frame with the potential energy surface, which corresponds to the sum of three gaussians
 pes <- data.frame(x = seq(-5, 5, length.out = 1001))
 pes$y <- with(pes, 1.0 * exp(-(x-0)^2) + 0.5 * exp(-(x - 2)^2) + 0.4 * exp(-(x + 2)^2))
@@ -11,7 +12,7 @@ pes$y2 <- with(pes, 0.8 * exp(-(x-0)^2) + 1.0 * exp(-(x - 2)^2) + 1.6 * exp(-(x 
 pes$y3 <- with(pes, 0.6 * exp(-(x-0)^2) + 0.2 * exp(-(x - 2)^2) + 0.2 * exp(-(x + 2)^2) + 0.7 * exp(-(x - 3)^2) + 0.65 * exp(-(x + 3)^2))
 
 #Create a data frame with the binding energy, which is the negative of the potential energy surface
-binding_energy_ <- data.frame(x = pes$x, y = -pes$y, y2=-pes$y2, y3=-pes$y3)
+binding_energy <- data.frame(x = pes$x, y = -pes$y, y2 = -pes$y2, y3=-pes$y3)
 
 #Create a plot of the potential energy surface
 pes_plot <- ggplot(binding_energy, aes(x = x, y = y)) +
@@ -182,13 +183,14 @@ binding_energy$y[binding_energy$surface == 3] <- with(binding_energy[binding_ene
 pes_plot5 <- ggplot(binding_energy, aes(x = x, y = y, color = as.factor(surface),linetype= as.factor(surface))) +
   geom_line(linewidth=1.1) +
   labs(x = "Generalized Coordinates of each Protein-Ligand complex",
-       y = "Binding Energy Estimate (Score)") +
+       y = "Binding Energy Estimate") +
   #scale_color_manual(values = c("black", "darkgray", "darkgray", "darkgray"), labels = c("Active compound", "Inactive1", "Inactive2", "Inactive3")) +
   #scale_linetype_manual(values = c("solid","solid","dashed","dotted"), labels = c("Active compound", "Inactive1", "Inactive2", "Inactive3")) +
   scale_color_manual(values = c("#56b4e9", "#56b4e9", "#56b4e9"), labels = c("Active compound", "Inactive1", "Inactive2")) +
   scale_linetype_manual(values = c("solid","dashed","dotted"), labels = c("Active compound", "Inactive1", "Inactive2")) +
   scale_x_continuous(labels = NULL, breaks = NULL)+
-  scale_y_continuous(labels = NULL, breaks = NULL)+
+  #scale_y_continuous(labels = NULL, breaks = NULL)+
+  scale_y_continuous(labels = NULL, breaks = NULL,limits=c(-4,0))+
   #add a dot for x=0
     geom_point(data = binding_energy %>% filter(surface==1) %>% filter(y == min(y)) %>% unique(), color = "black") +
     geom_label_repel(data = binding_energy %>% filter(surface==1) %>% filter(y == min(y)) %>% unique(), aes(label = "Active\ncompound"), min.segment.length = 0.01, label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "#009E73", segment.size = 0.5,nudge_x = 0.00, nudge_y = -0.5) +
@@ -230,7 +232,7 @@ binding_energy$y[binding_energy$surface == 3] <- with(binding_energy[binding_ene
 pes_plot6 <- ggplot(binding_energy, aes(x = x, y = y, color = as.factor(surface),linetype=as.factor(surface))) +
   geom_line(linewidth=1.2) +
   labs(x = "Generalized Coordinates of each Protein-Ligand complex",
-       y = "Binding Energy Estimate (Score)") +
+       y = "Binding Energy Estimate") +
   #scale_color_manual(values = c("black", "darkgray", "darkgray", "darkgray"), labels = c("Active compound", "Inactive1", "Inactive2", "Inactive3")) +
   #scale_linetype_manual(values = c("solid","solid","dashed","dotted"), labels = c("Active compound", "Inactive1", "Inactive2", "Inactive3")) +
   scale_color_manual(values = c("#e69f00", "#e69f00", "#e69f00"), labels = c("Active compound", "Inactive1", "Inactive2")) +
@@ -242,8 +244,8 @@ pes_plot6 <- ggplot(binding_energy, aes(x = x, y = y, color = as.factor(surface)
     geom_label_repel(data = binding_energy %>% filter(surface==1) %>% filter(x %in% s1min1$x ) %>% unique(), aes(label = "Active\ncompound"), label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "#009E73", segment.size = 0.5,nudge_x = -0.00, nudge_y = 0.3) +
     geom_label_repel(data = binding_energy %>% filter(surface==1) %>% filter(x %in% s1min1$x ) %>% unique(), aes(label = "Active\ncompound"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = -0.00, nudge_y = 0.3) +
     geom_point(data = binding_energy %>% filter(surface==2) %>% filter(x %in% s2min1$x ) %>% unique(), color = "black") +
-    geom_label_repel(data = binding_energy %>% filter(surface==2) %>% filter(x %in% s2min1$x ) %>% unique(), aes(label = "Inactive1"), label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "black", segment.size = 0.5,nudge_x = 0.00, nudge_y = 0.3) +
-    geom_label_repel(data = binding_energy %>% filter(surface==2) %>% filter(x %in% s2min1$x ) %>% unique(), aes(label = "Inactive1"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.00, nudge_y = 0.3) +
+    geom_label_repel(data = binding_energy %>% filter(surface==2) %>% filter(x %in% s2min1$x ) %>% unique(), aes(label = "Inactive1"), label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "black", segment.size = 0.5,nudge_x = 0.00, nudge_y = 0.5) +
+    geom_label_repel(data = binding_energy %>% filter(surface==2) %>% filter(x %in% s2min1$x ) %>% unique(), aes(label = "Inactive1"), label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.00, nudge_y = 0.5) +
     geom_point(data = binding_energy %>% filter(surface==3) %>% filter(x %in% s3min1$x ) %>% unique(), color = "black") +
     geom_label_repel(data = binding_energy %>% filter(surface==3) %>% filter(x %in% s3min1$x ) %>% unique(), aes(label = "Inactive2"), min.segment.length = 0.01, label.size=1.1 , box.padding = 0.5, point.padding = 0.5, color = "black", segment.size = 0.5,nudge_x = 0.00, nudge_y = -0.1) +
     geom_label_repel(data = binding_energy %>% filter(surface==3) %>% filter(x %in% s3min1$x ) %>% unique(), aes(label = "Inactive2"), min.segment.length = 0.01, label.size=NA , box.padding = 0.5, point.padding = 0.5, color = "black",  segment.color = NA , nudge_x = 0.00, nudge_y = -0.1) +
@@ -261,7 +263,7 @@ ggsave("pes_plot_VS2.png", plot = pes_plot6b, width = 6, height = 6, units = "in
 
 #Combine pes_plot5b and pes_plot6 one on top of the other using cowplot
 combined_plot <- plot_grid(pes_plot5b, pes_plot6b, ncol = 1, align = "v", labels = c("A", "B"))
-ggsave("combined_VS.png", plot = combined_plot, width = 5, height = 10, units = "in", dpi = 600)
+ggsave("combined_VS.png", plot = combined_plot, width = 5, height = 7.5, units = "in", dpi = 600)
 
 #Create a dataframe where y=ax+b, where a=0.6 and b=-8, and add some noise
 data <- data.frame(x = seq(-12, -2, length.out = 201))

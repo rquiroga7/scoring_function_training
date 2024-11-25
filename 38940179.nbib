@@ -1,0 +1,98 @@
+PMID- 38940179
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20240628
+LR  - 20240912
+IS  - 1367-4811 (Electronic)
+IS  - 1367-4803 (Print)
+IS  - 1367-4803 (Linking)
+VI  - 40
+IP  - Suppl 1
+DP  - 2024 Jun 28
+TI  - Enhancing generalizability and performance in drug-target interaction 
+      identification by integrating pharmacophore and pre-trained models.
+PG  - i539-i547
+LID - 10.1093/bioinformatics/btae240 [doi]
+AB  - MOTIVATION: In drug discovery, it is crucial to assess the drug-target binding 
+      affinity (DTA). Although molecular docking is widely used, computational 
+      efficiency limits its application in large-scale virtual screening. Deep 
+      learning-based methods learn virtual scoring functions from labeled datasets and 
+      can quickly predict affinity. However, there are three limitations. First, 
+      existing methods only consider the atom-bond graph or one-dimensional sequence 
+      representations of compounds, ignoring the information about functional groups 
+      (pharmacophores) with specific biological activities. Second, relying on limited 
+      labeled datasets fails to learn comprehensive embedding representations of 
+      compounds and proteins, resulting in poor generalization performance in complex 
+      scenarios. Third, existing feature fusion methods cannot adequately capture 
+      contextual interaction information. RESULTS: Therefore, we propose a novel DTA 
+      prediction method named HeteroDTA. Specifically, a multi-view compound feature 
+      extraction module is constructed to model the atom-bond graph and pharmacophore 
+      graph. The residue concat graph and protein sequence are also utilized to model 
+      protein structure and function. Moreover, to enhance the generalization 
+      capability and reduce the dependence on task-specific labeled data, pre-trained 
+      models are utilized to initialize the atomic features of the compounds and the 
+      embedding representations of the protein sequence. A context-aware nonlinear 
+      feature fusion method is also proposed to learn interaction patterns between 
+      compounds and proteins. Experimental results on public benchmark datasets show 
+      that HeteroDTA significantly outperforms existing methods. In addition, HeteroDTA 
+      shows excellent generalization performance in cold-start experiments and 
+      superiority in the representation learning ability of drug-target pairs. Finally, 
+      the effectiveness of HeteroDTA is demonstrated in a real-world drug discovery 
+      study. AVAILABILITY AND IMPLEMENTATION: The source code and data are available at 
+      https://github.com/daydayupzzl/HeteroDTA.
+CI  - © The Author(s) 2024. Published by Oxford University Press.
+FAU - Zhang, Zuolong
+AU  - Zhang Z
+AD  - School of Software, Henan University, Kaifeng, Henan Province 475000, China.
+FAU - He, Xin
+AU  - He X
+AD  - School of Software, Henan University, Kaifeng, Henan Province 475000, China.
+AD  - Henan International Joint Laboratory of Intelligent Network Theory and Key 
+      Technology, Henan University, Kaifeng, Henan Province 475000, China.
+FAU - Long, Dazhi
+AU  - Long D
+AD  - Department of Urology, Ji'an Third People's Hospital, Ji'an, Jiangxi Province 
+      343000, China.
+FAU - Luo, Gang
+AU  - Luo G
+AD  - School of Mathematics and Computer Science, Nanchang University, Nanchang, 
+      Jiangxi Province 330031, China.
+FAU - Chen, Shengbo
+AU  - Chen S
+AD  - Henan Engineering Research Center of Intelligent Technology and Application, 
+      Henan University, Kaifeng, Henan Province 475000, China.
+LA  - eng
+GR  - 20232BCJ25026/High-level and Urgently Needed Overseas Talent Programs of Jiangxi 
+      Province/
+GR  - 62102133/National Natural Science Foundation of China/
+GR  - 21ZD011/Kaifeng Major Science and Technology/
+GR  - 20211085454/Ji'an Finance and Science Foundation/
+PT  - Journal Article
+PT  - Research Support, Non-U.S. Gov't
+PL  - England
+TA  - Bioinformatics
+JT  - Bioinformatics (Oxford, England)
+JID - 9808944
+RN  - 0 (Proteins)
+SB  - IM
+MH  - *Drug Discovery/methods
+MH  - Molecular Docking Simulation
+MH  - Proteins/chemistry/metabolism
+MH  - Deep Learning
+MH  - Pharmacophore
+PMC - PMC11211825
+COIS- No competing interest is declared.
+EDAT- 2024/06/28 06:42
+MHDA- 2024/06/28 12:42
+PMCR- 2024/06/28
+CRDT- 2024/06/28 05:43
+PHST- 2024/06/28 12:42 [medline]
+PHST- 2024/06/28 06:42 [pubmed]
+PHST- 2024/06/28 05:43 [entrez]
+PHST- 2024/06/28 00:00 [pmc-release]
+AID - 7700904 [pii]
+AID - btae240 [pii]
+AID - 10.1093/bioinformatics/btae240 [doi]
+PST - ppublish
+SO  - Bioinformatics. 2024 Jun 28;40(Suppl 1):i539-i547. doi: 
+      10.1093/bioinformatics/btae240.
